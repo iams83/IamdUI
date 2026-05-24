@@ -155,7 +155,7 @@ abstract public class GraphicsPanel extends JPanel
 	private BufferedImage paintBuffer;
 	
 	@Override
-	public void paint(Graphics g)
+	final public void paint(Graphics g)
 	{
 	    if (this.paintBuffer == null || this.paintBuffer.getWidth() != getWidth() || this.paintBuffer.getHeight() != getHeight())
 	        this.paintBuffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);

@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import iamd.rsrc.Resources;
 
-public class RowPanelList<T extends ObjectRowPanel<? extends JPanel>> extends JPanel
+public class RowPanelList<T extends ObjectRowPanel<T>> extends JPanel
 {
     final private ArrayList<RowPanelListListener<T>> listeners = new ArrayList<RowPanelListListener<T>>();
     
@@ -62,32 +62,32 @@ public class RowPanelList<T extends ObjectRowPanel<? extends JPanel>> extends JP
         childrenPanel.add(topPanel);
 
         for (T childPanel : individuals)
-        {/*
-            childPanel.addRowPanelListListener(new RowPanelListListener<ObjectRowPanel<? extends JPanel>>()
+        {
+            childPanel.addRowPanelListListener(new RowPanelListListener<T>()
             {
                 @Override
-                public void rowPanelClicked(ObjectRowPanel<? extends JPanel> rowPanel)
+                public void rowPanelClicked(T rowPanel)
                 {
                     for (RowPanelListListener<T> listener : RowPanelList.this.listeners)
                         listener.rowPanelClicked(childPanel);
                 }
 
                 @Override
-                public void rowPanelMovedUp(ObjectRowPanel<? extends JPanel> rowPanel)
+                public void rowPanelMovedUp(T rowPanel)
                 {
                     for (RowPanelListListener<T> listener : RowPanelList.this.listeners)
                         listener.rowPanelMovedUp(childPanel);
                 }
 
                 @Override
-                public void rowPanelMovedDown(ObjectRowPanel<? extends JPanel> rowPanel)
+                public void rowPanelMovedDown(T rowPanel)
                 {
                     for (RowPanelListListener<T> listener : RowPanelList.this.listeners)
                         listener.rowPanelMovedDown(childPanel);
                 }
 
                 @Override
-                public void rowPanelDeleted(ObjectRowPanel<? extends JPanel> rowPanel)
+                public void rowPanelDeleted(T rowPanel)
                 {
                     for (RowPanelListListener<T> listener : RowPanelList.this.listeners)
                         listener.rowPanelDeleted(childPanel);
@@ -99,7 +99,7 @@ public class RowPanelList<T extends ObjectRowPanel<? extends JPanel>> extends JP
                     for (RowPanelListListener<T> listener : RowPanelList.this.listeners)
                         listener.rowPanelNew();
                 }
-            });*/
+            });
             
             JPanel gapPanel = new JPanel(new BorderLayout());
             gapPanel.add(childPanel);
