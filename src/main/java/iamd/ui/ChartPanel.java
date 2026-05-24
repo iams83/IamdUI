@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
-public class ChartPanel<T extends ChartArc> extends GraphicsPanel
+public class ChartPanel<T extends ChartElement> extends GraphicsPanel
 {
     private ArrayList<ChartPanelListener<T>> chartPanelListeners = new ArrayList<ChartPanelListener<T>>();
     
@@ -47,7 +47,7 @@ public class ChartPanel<T extends ChartArc> extends GraphicsPanel
 
         this.addMouseMotionListener(new MouseMotionAdapter()
         {
-            private ArrayList<ChartArc> hoveredArcs = new ArrayList<ChartArc>();
+            private ArrayList<ChartElement> hoveredElements = new ArrayList<ChartElement>();
             
             @Override
             public void mouseMoved(MouseEvent e)
@@ -58,23 +58,23 @@ public class ChartPanel<T extends ChartArc> extends GraphicsPanel
                 {
                     if (arc.containsPoint(point))
                     {
-                        if (!this.hoveredArcs.contains(arc))
+                        if (!this.hoveredElements.contains(arc))
                         {
                             for (ChartPanelListener<T> listener : ChartPanel.this.chartPanelListeners)
                                 listener.mouseEntered(e, arc);
                             
-                            this.hoveredArcs.add(arc);
+                            this.hoveredElements.add(arc);
                         }
                         
                         for (ChartPanelListener<T> listener : ChartPanel.this.chartPanelListeners)
                             listener.mouseMoved(e, arc);
                     }
-                    else if (this.hoveredArcs.contains(arc))
+                    else if (this.hoveredElements.contains(arc))
                     {
                         for (ChartPanelListener<T> listener : ChartPanel.this.chartPanelListeners)
                             listener.mouseExited(e, arc);
                         
-                        this.hoveredArcs.remove(arc);
+                        this.hoveredElements.remove(arc);
                     }
                 }
             }
@@ -169,7 +169,7 @@ public class ChartPanel<T extends ChartArc> extends GraphicsPanel
     {
         Rectangle2D bounds = null;
         
-        for (ChartArc arc : new ArrayList<ChartArc>(this.arcs))
+        for (ChartElement arc : new ArrayList<ChartElement>(this.arcs))
         {
             if (bounds == null)
                 bounds = arc.getBounds2D();
@@ -186,7 +186,7 @@ public class ChartPanel<T extends ChartArc> extends GraphicsPanel
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         
-        for (ChartArc arc : new ArrayList<ChartArc>(this.arcs))
+        for (ChartElement arc : new ArrayList<ChartElement>(this.arcs))
             arc.paint(g2, tx2);
     }
 

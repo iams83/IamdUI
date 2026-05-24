@@ -11,7 +11,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public class ChartArc
+public class ChartArc implements ChartElement
 {
     private static final double EXTERN_BORDER = 0;
     private static final double TEXT_BORDER = 0;
@@ -152,6 +152,7 @@ public class ChartArc
         }
     }
 
+    @Override
     public void paint(Graphics2D g2, AffineTransform tx2)
     {
         g2.setColor(this.fillingColor);

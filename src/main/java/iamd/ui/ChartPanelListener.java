@@ -2,7 +2,7 @@ package iamd.ui;
 
 import java.awt.event.MouseEvent;
 
-public interface ChartPanelListener<T extends ChartArc>
+public interface ChartPanelListener<T extends ChartElement>
 {
     public void mouseEntered(MouseEvent e, T arc);
     
