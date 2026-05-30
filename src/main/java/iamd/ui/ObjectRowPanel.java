@@ -2,6 +2,7 @@ package iamd.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -287,5 +288,10 @@ public class ObjectRowPanel<T extends ObjectRowPanel<?>> extends JPanel
     protected void setText(String myString)
     {
         this.textLabel.setText(myString);
+    }
+
+    protected void addComponent(Component component)
+    {
+        this.add(component, BorderLayout.SOUTH);
     }
 }
