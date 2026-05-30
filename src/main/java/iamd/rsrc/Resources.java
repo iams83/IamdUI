@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 public class Resources
 {
-    public static final ImageIcon EditIcon, EmptyIcon;
+    public static final ImageIcon EditIcon, EmptyIcon, OpenFileIcon;
 
     public static final ImageIcon LinkIcon, LinkDisabledIcon;
     
@@ -24,6 +24,8 @@ public class Resources
     static
     {
         ImageIcon editIcon0 = null, emptyIcon0 = null;
+
+        ImageIcon openFileIcon0 = null;
         
         ImageIcon linkIcon0 = null, linkDisabledIcon0 = null;
         
@@ -46,6 +48,8 @@ public class Resources
             linkIcon0 = new ImageIcon(ImageIO.read(Resources.class.getResourceAsStream("link.png"))); //$NON-NLS-1$
             
             linkDisabledIcon0 = new ImageIcon(ImageIO.read(Resources.class.getResourceAsStream("link_disabled.png"))); //$NON-NLS-1$
+
+            openFileIcon0 = new ImageIcon(ImageIO.read(Resources.class.getResourceAsStream("fileopen.png"))); //$NON-NLS-1$
             
             arrowTopIcon0 = new ImageIcon(ImageIO.read(Resources.class.getResourceAsStream("arrow_top.png"))); //$NON-NLS-1$
             
@@ -74,6 +78,8 @@ public class Resources
         finally
         {
             EditIcon = editIcon0;
+
+            OpenFileIcon = openFileIcon0;
             
             EmptyIcon = emptyIcon0;
             

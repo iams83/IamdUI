@@ -29,6 +29,8 @@ abstract public class GraphicsPanel extends JPanel
 	private AffineTransform tx = new AffineTransform();
 
 	private Point draggedPoint;
+	private boolean panningEnabled = true;
+	private boolean scalingEnabled = true;
 	
 	public Reverse reverse;
 
@@ -43,7 +45,10 @@ abstract public class GraphicsPanel extends JPanel
                 @Override
                 public void mousePressed(MouseEvent e)
                 {
-                    GraphicsPanel.this.draggedPoint = e.getPoint();
+                    if (panningEnabled)
+                    {
+                        GraphicsPanel.this.draggedPoint = e.getPoint();
+                    }
                 }
             });
         
@@ -52,7 +57,7 @@ abstract public class GraphicsPanel extends JPanel
                 @Override
                 public void mouseDragged(MouseEvent e)
                 {
-                    if (GraphicsPanel.this.draggedPoint == null)
+                    if (!panningEnabled || GraphicsPanel.this.draggedPoint == null)
                         return;
                     
                     AffineTransform newTx = new AffineTransform();
@@ -76,6 +81,9 @@ abstract public class GraphicsPanel extends JPanel
                     @Override
                     public void mouseWheelMoved(MouseWheelEvent e)
                     {
+                        if (!scalingEnabled)
+                            return;
+                            
                         AffineTransform newTx = new AffineTransform();
                         
                         double scale = Math.pow(1.1, -e.getWheelRotation());
@@ -93,6 +101,30 @@ abstract public class GraphicsPanel extends JPanel
                 });
             }
         }
+    }
+    
+    public void setPanningEnabled(boolean enabled)
+    {
+        this.panningEnabled = enabled;
+        if (!enabled)
+        {
+            this.draggedPoint = null;
+        }
+    }
+    
+    public void setScalingEnabled(boolean enabled)
+    {
+        this.scalingEnabled = enabled;
+    }
+    
+    public boolean isPanningEnabled()
+    {
+        return this.panningEnabled;
+    }
+    
+    public boolean isScalingEnabled()
+    {
+        return this.scalingEnabled;
     }
 
 	public AffineTransform getTransform()

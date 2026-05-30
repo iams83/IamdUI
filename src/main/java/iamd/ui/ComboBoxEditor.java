@@ -77,6 +77,11 @@ public class ComboBoxEditor<T> extends AttributeEditor<JComboBox<ValueWithString
         });
     }
 
+    public void setSelectedValue(T value)
+    {
+        this.setValue(value);
+    }
+    
     @Override
     protected void setValue(T value)
     {
@@ -87,6 +92,15 @@ public class ComboBoxEditor<T> extends AttributeEditor<JComboBox<ValueWithString
                 if (item.value == value ||
                     item.value != null && item.value.toString().equals(value.toString()))
                     this.getComponent().setSelectedItem(item);
+            }
+        }
+        else
+        {
+            // Find and select the null item
+            ValueWithString<T> nullItem = this.values.get(null);
+            if (nullItem != null)
+            {
+                this.getComponent().setSelectedItem(nullItem);
             }
         }
     }

@@ -13,6 +13,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -76,16 +78,7 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
             {
                 if (overrideEnter && e.getKeyCode() == KeyEvent.VK_ENTER)
                 {
-                    AttributeEditor.this.getComponent().setFocusable(false);
-                    
-                    SwingUtilities.invokeLater(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            AttributeEditor.this.getComponent().setFocusable(true);
-                        }
-                    });
+                    AttributeEditor.this.confirmNewValue();
                 }
                 else if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
                 {
@@ -143,7 +136,7 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
                 else
                     displayValuePanel.setBackground(Color.WHITE);
                 
-                editIcon.setIcon(Resources.EditIcon);
+                editIcon.setIcon(getEditIcon());
             }
 
             @Override
@@ -159,7 +152,7 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
             
             public void mouseReleased(MouseEvent e)
             {
-                AttributeEditor.this.setValue(AttributeEditor.this.previousValue);
+                AttributeEditor.this.setValue(onValuePanelClicked(AttributeEditor.this.previousValue));
                 
                 editPanelCardLayout.show(valuePanel, EDIT_CARD);
 
@@ -177,6 +170,11 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
                 AttributeEditor.this.confirmNewValue();
             }
         });
+    }
+
+    protected ImageIcon getEditIcon()
+    {
+        return Resources.EditIcon;
     }
     
     public void addAttributeEditionListener(AttributeEditorListener<ValueType> attributeEditorListener)
@@ -237,6 +235,25 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
             
             this.editPanelCardLayout.show(this.valuePanel, DISPLAY_CARD);
         }
+    }
+
+    protected void confirmCurrentValue()
+    {
+        AttributeEditor.this.getComponent().setFocusable(false);
+                    
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                AttributeEditor.this.getComponent().setFocusable(true);
+            }
+        });
+    }
+
+    protected ValueType onValuePanelClicked(ValueType previousValue)
+    {
+        return previousValue;
     }
     
     protected String valueNotValidErrorMessage()
