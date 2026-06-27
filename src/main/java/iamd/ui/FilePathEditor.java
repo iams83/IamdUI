@@ -6,16 +6,15 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import iamd.rsrc.Resources;
+import net.iharder.dnd.FileDrop;
 
 @SuppressWarnings("serial")
 public class FilePathEditor extends TextLineEditor
 {
-    JFileChooser fileChooser = new JFileChooser();
+    private JFileChooser fileChooser = new JFileChooser();
     
     private File defaultDirectory;
     
@@ -23,7 +22,28 @@ public class FilePathEditor extends TextLineEditor
     
     public FilePathEditor()
     {
-    } 
+        super();
+        
+        new FileDrop(this, new FileDrop.Listener()
+        {
+            @Override
+            public void filesDropped(File[] files)
+            {
+                if (files.length > 0)
+                {
+                    File droppedFile = files[0];
+
+                    setValue(droppedFile.getAbsolutePath());
+
+                    notifyFileSelectionListeners(droppedFile);
+
+                    SwingUtilities.invokeLater(() -> {
+                        confirmCurrentValue();
+                    });
+                }
+            }
+        });
+    }
 
     public void setDefaultDirectory(File directory)
     {
@@ -78,7 +98,8 @@ public class FilePathEditor extends TextLineEditor
         {
             File selectedFile = fileChooser.getSelectedFile();
             
-            // Call listeners before returning - they can update fields that will be captured
+            setValue(selectedFile.getAbsolutePath());
+
             notifyFileSelectionListeners(selectedFile);
             
             SwingUtilities.invokeLater(() -> {

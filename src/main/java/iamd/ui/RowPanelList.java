@@ -29,9 +29,10 @@ public class RowPanelList<T extends ObjectRowPanel<T>> extends JPanel
         if (addButtonTooltip != null)
         {
             JLabel addIcon = new JLabel(Resources.AddDisabledIcon);
-            
+            addIcon.setOpaque(true);
+
             addIcon.setToolTipText(addButtonTooltip);
-            
+
             addIcon.setBorder(new EmptyBorder(1, 1, 1, 1));
     
             topPanel.add(addIcon, BorderLayout.EAST);

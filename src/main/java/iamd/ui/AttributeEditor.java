@@ -100,7 +100,8 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
         this.component.setFont(font);
         
         JLabel editIcon = new JLabel(Resources.EmptyIcon);
-        
+        editIcon.setOpaque(true);
+
         displayValuePanel.add(this.valueLabel);
         displayValuePanel.add(editIcon, BorderLayout.EAST);
 
@@ -239,6 +240,8 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
 
     protected void confirmCurrentValue()
     {
+        confirmNewValue();
+
         AttributeEditor.this.getComponent().setFocusable(false);
                     
         SwingUtilities.invokeLater(new Runnable()
@@ -284,7 +287,12 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
         
         this.valueTypeToComponent(this.valueLabel, value);
         
-        this.attributeBinder.setBindedValue(value);
+        // Updating the UI must not fire attributeModified listeners: initializeValue
+        // is invoked when the editor is first bound to a model (i.e. when the user
+        // merely visits/selects the individual), not when the user actually edits
+        // a value. Firing listeners here would cause downstream side effects such
+        // as updating the CHAN node of an unchanged individual.
+        this.setValue(value);
         
         if (this.manualBackgroundColor != null)
             this.displayValuePanel.setBackground(this.manualBackgroundColor);
@@ -293,6 +301,11 @@ public abstract class AttributeEditor<JEditorComponent extends JComponent, Value
     protected boolean validateCurrentValue()
     {
         return true;
+    }
+
+    protected void setValueLabel(String text)
+    {
+        this.valueLabel.setText(text == null ? "" : text);
     }
 
     abstract protected void setValue(ValueType value);

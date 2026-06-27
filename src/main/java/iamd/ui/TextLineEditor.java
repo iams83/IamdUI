@@ -14,6 +14,8 @@ public class TextLineEditor extends AttributeEditor<JTextField, String>
     @Override
     protected void setValue(String value)
     {
+        this.setValueLabel(value);
+
         this.getComponent().setText(value);
     }
 
