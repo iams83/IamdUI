@@ -51,6 +51,7 @@ import java.io.Reader;
  * @author  rharder@users.sf.net
  * @version 1.1.1
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class FileDrop
 {
     private transient javax.swing.border.Border normalBorder;
@@ -319,7 +320,6 @@ public class FileDrop
                             // Get a useful list
                             java.util.List fileList = (java.util.List) 
                                 tr.getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
-                            java.util.Iterator iterator = fileList.iterator();
 
                             // Convert list to array
                             java.io.File[] filesTemp = new java.io.File[ fileList.size() ];
@@ -429,13 +429,14 @@ public class FileDrop
         {   
             boolean support = false;
             try
-            {   Class arbitraryDndClass = Class.forName( "java.awt.dnd.DnDConstants" );
+            {   
+                Class.forName( "java.awt.dnd.DnDConstants" );
                 support = true;
             }   // end try
             catch( Exception e )
             {   support = false;
             }   // end catch
-            supportsDnD = new Boolean( support );
+            supportsDnD = Boolean.valueOf( support );
         }   // end if: first time through
         return supportsDnD.booleanValue();
     }   // end supportsDnD
